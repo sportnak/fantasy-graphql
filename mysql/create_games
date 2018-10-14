@@ -1,0 +1,25 @@
+CREATE TABLE `nfl`.`games` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `year` INT NOT NULL,
+  `home_team` INT(11) NOT NULL,
+  `away_team` INT(11) NOT NULL,
+  `home_score` INT NOT NULL,
+  `away_score` INT NOT NULL,
+  `playoff_game` BIT NOT NULL DEFAULT 0,
+  `overtime_game` BIT NOT NULL DEFAULT 0,
+  `date` DATETIME NOT NULL,
+  `game_week` INT NOT NULL,
+  `gamescol` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `ux_home_away_week` (`home_team` ASC, `away_team` ASC, `game_week` ASC) INVISIBLE,
+  INDEX `fk_awayteams_idx` (`away_team` ASC) VISIBLE,
+  CONSTRAINT `fk_hometeams`
+    FOREIGN KEY (`home_team`)
+    REFERENCES `nfl`.`teams` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_awayteams`
+    FOREIGN KEY (`away_team`)
+    REFERENCES `nfl`.`teams` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
