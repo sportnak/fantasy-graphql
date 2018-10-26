@@ -82,7 +82,7 @@ request('https://www.pro-football-reference.com/teams/')
       });
     });
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < teams.length; i++) {
       request(teams[i].url).then(async function (teamString) {
         var connection = await mysql.createConnection({
           host: 'localhost',
@@ -104,7 +104,7 @@ request('https://www.pro-football-reference.com/teams/')
           const oppScore = $$(this).find('td[data-stat="pts_def"]').text();
           const teamScore = $$(this).find('td[data-stat="pts_off"]').text();
           const home = $$(this).find('td[data-stat="game_location"]').text().length === 0;
-          const opponent = $$(this).find('td[data-stat="opp"]').text();
+          const opponent = $$(this).find('td[data-stat="opp"]').first().text();
           const year = 2018;
           const playoffGame = false;
           const overtimeGame = $$(this).find('td[data-stat="overtime"]').text().length !== 0;
@@ -113,6 +113,8 @@ request('https://www.pro-football-reference.com/teams/')
           if (outcome.length === 0) {
             return;
           }
+
+          console.log(outcome);
 
           // connection.query(`
           //   INSERT INTO games (year, homeTeam, awayTeam) VALUES ('${teams[i].name}');
